@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import './App.css'
 
-const API_URL = 'http://localhost:5000'
+const API_URL = 'https://nike-hostels-and-livings.onrender.com'
 
 const getTodayDate = () => {
   const today = new Date()
