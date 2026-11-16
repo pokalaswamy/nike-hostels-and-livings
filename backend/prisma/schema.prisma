@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  STUDENT
+  WARDEN
+  ADMIN
+  SECURITY
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  phone        String?
+  role         UserRole @default(STUDENT)
+  rollNumber   String?  @unique
+  roomNumber   String?
+  department   String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  hostelId     Int?
+  hostel       Hostel? @relation(fields: [hostelId], references: [id])
+}
+model Hostel {
+  id          Int      @id @default(autoincrement())
+  name        String
+  hostelType  String?
+  address     String?
+  totalRooms  Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  users       User[]
+}
+enum GatePassStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model GatePass {
+  id              Int            @id @default(autoincrement())
+  studentName     String
+  rollNumber      String
+  roomNumber      String
+  department      String
+  contactNumber   String
+  reason          String
+  description     String?
+  departureDate   String
+  departureTime   String
+  returnDate      String
+  returnTime      String
+  status          GatePassStatus @default(PENDING)
+  qrToken         String?        @unique
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
